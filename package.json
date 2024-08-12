@@ -3,7 +3,7 @@
   "name": "E-Commerce",
   "version": "2.0.0",
   "descreption": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
