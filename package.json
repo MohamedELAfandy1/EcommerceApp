@@ -1,14 +1,13 @@
 {
-  "name":"ECommerce",
-  "version":"2.0.0",
-  "descreption":"",
-  "main":"server.js",
+  "name": "E-Commerce",
+  "version": "2.0.0",
+  "descreption": "",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
     "start:prod": "SET NODE_ENV=production & nodemon server.js"
   },
-
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -29,12 +28,6 @@
     "stripe": "^16.6.0",
     "uuid": "^10.0.0"
   },
-  "scripts": {
-    "start": "node server.js"
-  },
-  "name": "v2",
-  "version": "1.0.0",
-  "main": "server.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
