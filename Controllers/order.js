@@ -1,4 +1,4 @@
-// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const asyncHandler = require("express-async-handler");
 const apiError = require("../Utils/apiError");
 const factory = require("./handlersFactory");
@@ -76,42 +76,44 @@ exports.updateOrderToDeliverd = asyncHandler(async (req, res, next) => {
   res.status(200).json({ status: "Success", data: updatedOrder });
 });
 
-// exports.checkOutSession = asyncHandler(async (req, res, next) => {
-//   const taxPrice = 0;
-//   const shippingPrice = 0;
+exports.checkOutSession = asyncHandler(async (req, res, next) => {
+  console.log('Stripe Secret Key:', process.env.STRIPE_SECRET_KEY);
 
-//   const cart = await cartModel.findById(req.params.cartId);
-//   if (!cart) {
-//     return next(new apiError("No Cart For This User", 404));
-//   }
+  const taxPrice = 0;
+  const shippingPrice = 0;
 
-//   const cartPrice = cart.totalPriceAfterDiscount
-//     ? cart.totalPriceAfterDiscount
-//     : cart.totalCartPrice;
-//   const totalOrderPrice = cartPrice + taxPrice + shippingPrice;
+  const cart = await cartModel.findById(req.params.cartId);
+  if (!cart) {
+    return next(new apiError("No Cart For This User", 404));
+  }
 
-//   const session = await stripe.checkout.sessions.create({
-//     line_items: [
-//       {
-//         price_data: {
-//           currency: 'egp',
-//           product_data: {
-//             name: req.user.name,
-//           },
-//           unit_amount: totalOrderPrice * 100,
-//         },
-//         quantity: 1,
-//       },
-//     ],
-//     mode: 'payment',
-//     success_url: `${req.protocol}://${req.get('host')}/orders`,
-//     cancel_url: `${req.protocol}://${req.get('host')}/cart`,
-//     customer_email: req.user.email,
-//     client_reference_id: String(cart._id), 
-//     metadata: {
-//       shipping_address: JSON.stringify(req.body.shippingAddress), 
-//     },
-//   });
+  const cartPrice = cart.totalPriceAfterDiscount
+    ? cart.totalPriceAfterDiscount
+    : cart.totalCartPrice;
+  const totalOrderPrice = cartPrice + taxPrice + shippingPrice;
 
-//   res.status(200).json({ status: "success", session });
-// });
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price_data: {
+          currency: 'egp',
+          product_data: {
+            name: req.user.name,
+          },
+          unit_amount: totalOrderPrice * 100,
+        },
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: `${req.protocol}://${req.get('host')}/orders`,
+    cancel_url: `${req.protocol}://${req.get('host')}/cart`,
+    customer_email: req.user.email,
+    client_reference_id: String(cart._id), 
+    metadata: {
+      shipping_address: JSON.stringify(req.body.shippingAddress), 
+    },
+  });
+
+  res.status(200).json({ status: "success", session });
+});

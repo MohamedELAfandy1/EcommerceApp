@@ -6,7 +6,7 @@ const {
   getSpecificOrder,
   updateOrderToPaid,
   updateOrderToDeliverd,
-  // checkOutSession
+  checkOutSession
 } = require("../Controllers/order");
 const { auth, allowedTo } = require("../Controllers/auth");
 const {
@@ -17,12 +17,12 @@ const {
 
 const router = express.Router();
 
-// router.get(
-//   "/checkouteSession/:cartId",
-//   auth,
-//   allowedTo("user"),
-//   checkOutSession
-// );
+router.get(
+  "/checkouteSession/:cartId",
+  auth,
+  allowedTo("user"),
+  checkOutSession
+);
 
 router
   .route("/:cartId")

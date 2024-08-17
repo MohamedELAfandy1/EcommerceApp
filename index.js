@@ -8,7 +8,7 @@ const compression = require("compression");
 const apiError = require("./Utils/apiError.js");
 const globalError = require("./Middleware/error.js");
 const dbConnection = require("./config/database.js");
-const mountRoutes = require("./Routes/index.js");
+const mountRoutes = require("./Routes/indexRoutes.js");
 
 const app = express();
 
