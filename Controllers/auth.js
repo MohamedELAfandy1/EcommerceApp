@@ -2,10 +2,10 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
+const { default: slugify } = require("slugify");
 
 const User = require("../models/userModel");
 const apiError = require("../Utils/apiError");
-const { default: slugify } = require("slugify");
 const sendEmail = require("../Utils/sendEmail");
 const createToken = require("../Utils/createToken");
 
