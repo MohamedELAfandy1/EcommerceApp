@@ -9,6 +9,9 @@ const handleJWTExpired = () =>
 const globalError = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
+  if (err instanceof SyntaxError && err.status === 413) {
+    return res.status(413).send({ message: "Payload too large" });
+  }
   if (process.env.NODE_ENV === "development") {
     sendErrorForDevMode(err, res);
   } else {
@@ -29,13 +32,13 @@ const sendErrorForDevMode = (err, res) => {
     error: err,
     message: err.message,
     stack: err.stack,
-  }); 
+  });
 };
 
 const sendErrorForOtherMode = (err, res) => {
   return res.status(err.statusCode).json({
     status: err.status,
     error: err.message,
-  }); 
+  });
 };
 module.exports = globalError;
